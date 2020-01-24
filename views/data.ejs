@@ -8,6 +8,37 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="./css/main.css">
 </head>
+<script type="text/javascript">
+	$(document).ready(function(){
+
+		$( "#form_banner" ).submit(function(event) {
+			event.preventDefault();
+
+			$.ajax({
+				type: 'POST',
+				url: '/',
+				data: $('#form_banner').serialize(),
+				dataType: "json",
+				success: function(response){
+					//alert("a");
+					//console.log(response.Success);
+					$('#form_banner')[0].reset();
+
+					document.getElementById("check").innerHTML=response.Success;
+						 //ADD THIS CODE
+						 setTimeout(function(){
+							 document.getElementById("check").innerHTML="";
+						 },3000);
+						 if (response.Success=="You are regestered,You can login now.") {
+							 document.getElementById("aa").click();
+						 };
+					 },
+					 error: function() {
+					 }
+				 })
+		});
+	});
+</script>
 <body>
 	<body>
 
@@ -20,7 +51,7 @@
 			</div>
 			<div  class="col-md-9 col-md-offset-0">
 			<div class="form-group">
-				<form id="form1" method="post">
+				<form id="form_banner" method="post">
 					<label for="" >Banner Name</label>
 					<input type="text" name="banner_name" placeholder="banner name" required="" class="form-control"><br/>
 					<label for="" >Banner Content</label>
@@ -36,6 +67,8 @@
 			</div>
 			<div class="mssg bg-danger">
 			<span id="check"></span>
+			</div>
+			
 			</div>
 		</div>	
 	</body>

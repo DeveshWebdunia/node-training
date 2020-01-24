@@ -21,7 +21,7 @@
 					dataType: "json",
 					success: function(response){
 						//alert("a");
-						//console.log(response.Success);
+						console.log(response.Success);
 						$('#form')[0].reset();
 
 						document.getElementById("check").innerHTML=response.Success;
@@ -30,7 +30,9 @@
          						document.getElementById("check").innerHTML="";
          					},3000);
          					if (response.Success=="Success!") {
-         						document.getElementById("aa").click();
+								alert("response:"+ JSON.stringify(response));
+								 document.getElementById("aa").click();
+								 
          					};
          				},
          				error: function() {
@@ -54,12 +56,16 @@
 				<input type="submit" value="Login" class="btn btn-success">
 			</form>
 		</div>
+		<!-- check for inputs  -->
 		<div class="mssg bg-danger">
 			<span id="check" ></span>
 		</div>
+		<!-- check for inputs end  -->
+		<!-- redirection to profile page  -->
 		<div id="LangTable"><a href="/profile" id="aa"></a>
 		</div>
-		<div><span>Do you forgot password?</span><a href="/forgetpass">click here</a>
+
+		<div><span>forgot password?</span><a href="/forgetpass">click here</a>
 		</div>
 	</div>
 </body>

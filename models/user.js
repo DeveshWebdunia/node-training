@@ -12,4 +12,21 @@ userSchema = new Schema( {
 }),
 User = mongoose.model('User', userSchema);
 
+//banner Schema
+bannerSchema = new Schema( {
+	
+	unique_id: Number,
+	name : String,
+	content : String,
+	color: String,
+	positionlft : String,
+	positionrht : String,
+		
+}),
+Banner = mongoose.model('banner', bannerSchema);
+
+
+
+
+module.exports = Banner;
 module.exports = User;

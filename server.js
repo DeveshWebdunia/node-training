@@ -8,7 +8,7 @@ var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 
 mongoose.connect('mongodb://localhost:27017/local', { 
-  useMongoClient: true,
+ 
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false
@@ -41,7 +41,7 @@ app.use('/', index);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-  var err = new Error('File Not Found');
+  var err = new Error('File Not Found---');
   err.status = 404;
   next(err);
 });
