@@ -2,9 +2,20 @@ var express = require('express');
 var router = express.Router();
 var User = require('../models/user');
 
+router.get('/banner', function (req, res, next) {
+	var bannerEL =Banner.find({});
+	bannerEL.exec(function(err,data){
+	if(err) throw err;
+		console.log(data);
+		res.render('banner', { title: 'Banner Records', BannerRecords:data });
+		  });
+	//return res.render('banner.ejs');
+});
+
 router.get('/', function (req, res, next) {
 	return res.render('index.ejs');
 });
+
 
 
 router.post('/', function(req, res, next) {
@@ -69,6 +80,7 @@ router.post('/login', function (req, res, next) {
 			
 			if(data.password==req.body.password){
 				console.log("Done Login");
+				
 				req.session.userId = data.unique_id;
 				console.log(req.session.userId);
 				res.send({"Success":"Success!"});
@@ -91,19 +103,7 @@ router.get('/admin', function (req, res, next) {
 	return res.render('admin.ejs');
 });
 
-router.get('/profile', function (req, res, next) {
-	console.log("profile");
-	User.findOne({unique_id:req.session.userId},function(err,data){
-		console.log("data");
-		console.log(data);
-		if(!data){
-			res.redirect('/');
-		}else{
-			//console.log("found");
-			return res.render('data.ejs', {"name":data.username,"email":data.email});
-		}
-	});
-});
+
 
 router.get('/logout', function (req, res, next) {
 	console.log("logout")
@@ -151,29 +151,15 @@ router.post('/forgetpass', function (req, res, next) {
 	
 });
 
-//banner config data to db 
 router.get('/profile', function (req, res, next) {
-	console.log("profile");
-	User.findOne({unique_id:req.session.userId},function(err,data){
-		console.log("data");
-		console.log("data1:" +data);
-		if(!data){
-			res.redirect('/');
-		}else{
-			//console.log("found");
-			return res.render('data.ejs', {"name":data.username,"email":data.email});
-		}
-	});
-	
+	return res.render('data.ejs');
+});
+
+router.post('/profile', function (req, res, next) {
 	var bannerConfig = req.body;
-
-
-	if(!bannerConfig.banner_name || !bannerConfig.banner_content || !bannerConfig.banner_color || !bannerConfig.banner_position_lft || !bannerConfig.banner_position_rht ){
-		res.send();
-		User.findOne({name :bannerConfig.banner_name},function(err,data){
-				if(!data){
-					var c;
-					User.findOne({},function(err,data){
+	res.send();
+	var c;
+					Banner.findOne({},function(err,data){
 
 						if (data) {
 							console.log("if");
@@ -183,12 +169,11 @@ router.get('/profile', function (req, res, next) {
 						}
 
 						var newBanner = new Banner({
-							unique_id:c,
 							name : bannerConfig.banner_name,
-							content: bannerConfig.banner_content,
+					    	content: bannerConfig.banner_content,
 							color: bannerConfig.banner_color,
 							positionlft: bannerConfig.banner_position_lft,
-							positionrht :  bannerConfig.banner_position_rht
+			  			  	positionrht :  bannerConfig.banner_position_rht
 						});
 
 						newBanner.save(function(err, banner){
@@ -200,14 +185,29 @@ router.get('/profile', function (req, res, next) {
 
 					}).sort({_id: -1}).limit(1);
 					res.send({"Success":"You are regestered,You can login now."});
-				}else{
-					res.send({"Success":"banner published."});
-				}
 
-			});
-		}else{
-			res.send({"Success":"banner is not published"});
-		}
-
+	console.log("profile");
+	console.log();
+	return res.render('data.ejs');
 });
+
+router.post('/admincon', function (req, res, next) {
+	var users =User.find({});
+	users.exec(function(err,data){
+	if(err) throw err;
+		res.render('admincon', { title: 'User Records', records:data });
+		  });
+	
+});
+
+//delete record  
+router.get('delete/:id', function(req, res){
+	console.log("delete");
+	User.remove({_id: req.params.id}, 
+	   function(err){
+		if(err) res.json(err);
+		else    res.redirect('/admincon');
+	});
+});
+
 module.exports = router;

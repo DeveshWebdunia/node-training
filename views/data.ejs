@@ -16,7 +16,7 @@
 
 			$.ajax({
 				type: 'POST',
-				url: '/',
+				url: '/profile',
 				data: $('#form_banner').serialize(),
 				dataType: "json",
 				success: function(response){
@@ -38,30 +38,30 @@
 				 })
 		});
 	});
+	
 </script>
 <body>
 	<body>
 
 		<div class="col-md-4 col-md-offset-0">
 			<div>
-				<p>Banner Management
-				</p>
+				
 			</div>
 			<div><h3>Banner Configurations</h3></div>
 			</div>
 			<div  class="col-md-9 col-md-offset-0">
 			<div class="form-group">
-				<form id="form_banner" method="post">
+				<form id="form_banner" method="post" action='/admincon'>
 					<label for="" >Banner Name</label>
 					<input type="text" name="banner_name" placeholder="banner name" required="" class="form-control"><br/>
 					<label for="" >Banner Content</label>
 					<textarea class="form-control rounded-0" name="banner_content"  placeholder="banner content" rows="3"></textarea><br/>
-					<label for="" >Banner Color</label>
+					<!-- <label for="" >Banner Color</label>
 					<input type="text" name="banner_color" placeholder="banner color" required="" class="form-control"><br/>
 					<label for="" >Banner position left</label>
 					<input type="text" name="banner_position_lft" placeholder="banner position left" required="" class="form-control"><br/>
 					<label for="" >Banner position right</label>
-					<input type="text" name="banner_position_rht" placeholder="banner position right" required="" class="form-control"><br/>
+					<input type="text" name="banner_position_rht" placeholder="banner position right" required="" class="form-control"><br/> -->
 					<input type="submit" value="Publish" class="btn btn-success">
 				</form>
 			</div>

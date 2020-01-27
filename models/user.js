@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+
 userSchema = new Schema( {
 	
 	unique_id: Number,
@@ -8,6 +9,14 @@ userSchema = new Schema( {
 	username: String,
 	password: String,
 	passwordConf: String,
+	status :{type :Number, default :0 } , 
+	///banner configs
+	// name : String,
+	// content : String,
+	// color: String,
+	// positionlft : String,
+	// positionrht : String,
+	
 		
 }),
 User = mongoose.model('User', userSchema);
