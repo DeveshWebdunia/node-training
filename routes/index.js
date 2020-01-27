@@ -201,12 +201,12 @@ router.post('/admincon', function (req, res, next) {
 });
 
 //delete record  
-router.get('delete/:id', function(req, res){
+router.get('/delete/:id', function(req, res){
 	console.log("delete");
-	User.remove({_id: req.params.id}, 
+	User.remove({unique_id: req.params.id}, 
 	   function(err){
 		if(err) res.json(err);
-		else    res.redirect('/admincon');
+		else    res.render('admincon.ejs', { title: 'User Records', records:data });
 	});
 });
 
