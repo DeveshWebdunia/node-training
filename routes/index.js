@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../models/user');
+const JSON = require('circular-json');
+
 
 router.get('/banner', function (req, res, next) {
 	var bannerEL =Banner.find({});
@@ -204,6 +206,24 @@ router.post('/admincon', function (req, res, next) {
 	
 });
 
+router.get('/delete/:id', function(req, res){
+	console.log("delete");
+	User.remove({unique_id: req.params.id}, 
+	   function(err){
+		if(err) res.json(err);
+		else   {
+			
+				var users =User.find({});
+				users.exec(function(err,data){
+				if(err) throw err;
+				res.render('admincon', { title: 'User Records', records:data });
+			  });
+			
+		}
+	});
+	
+});
+
 //delete record  
 router.get('/delete/:id', function(req, res){
 	console.log("delete");
@@ -224,9 +244,32 @@ router.get('/delete/:id', function(req, res){
 });
 
 //active status of record
-router.get('/active/:id', function(req, res){
+// router.get('/active/:id', function(req, res){
+// 	console.log("active");
+// 	User.updateOne({unique_id: req.params.id},{	status: 1},
+// 	   function(err,data){
+// 		   console.log(data);
+// 		if(err) res.json(err);
+// 		else 
+// 		{
+// 			var users =User.find({});
+// 			users.exec(function(err,data){
+// 			if(err) throw err;
+// 			res.render('admincon', { title: 'User Records', records:data });
+// 		//	res.redirect('/admincon');
+
+// 		  });
+// 		}  // res.render('admincon.ejs', { title: 'User Records', records:data });
+
+// 	});
+// });
+
+//active status of record using post
+router.post('/active', function(req, res){
 	console.log("active");
-	User.updateOne({unique_id: req.params.id},{	status: 1},
+	//console.log(JSON.stringify(req.body));
+	console.log(req.body.val);
+	User.updateOne({unique_id: req.body},{	status: 1},
 	   function(err,data){
 		   console.log(data);
 		if(err) res.json(err);

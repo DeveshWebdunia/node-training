@@ -4,6 +4,34 @@
 	</script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="./css/main.css">
+    
+      <script type="text/javascript">
+		$(document).ready(function(){
+
+			$( "#activebtn" ).click(function(event) {
+				event.preventDefault();
+
+				$.ajax({
+					type: 'POST',
+					url: '/active',
+					data: {
+            val : $('#activebtn').val()
+          },
+					dataType: "text",
+					success: function(response){
+						//alert("a");
+						console.log(response.Success);
+						$('#activebtn')[0].reset();
+
+         				},
+         				error: function() {
+                   console.log("errror");
+         				}
+         			})
+			});
+		});
+	</script>
+    
 <body> 
     <h1>Registered Users</h1>   
 <table class="table table-striped table-primary">
@@ -26,7 +54,10 @@
             <td><%= row.email %></td>
             <td><%= row.status %></td>
             <%if (row.status==0){%>
-            <td><a href="active/<%= row.unique_id %>">Active</a></td>
+
+            <td><a href="active/<%= row.unique_id %>">Active</a>
+            <button value="<%= row.unique_id %>" id="activebtn" name="<%= row.unique_id %>">Active</button>
+            </td>
             <%}else{%>
               <td><a href="inactive/<%= row.unique_id %>">Inactive</a></td>
               <%}%>
