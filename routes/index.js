@@ -225,9 +225,9 @@ router.get('/delete/:id', function(req, res){
 });
 
 //delete record  
-router.get('/delete/:id', function(req, res){
+router.post('/delete', function(req, res){
 	console.log("delete");
-	User.remove({unique_id: req.params.id}, 
+	User.remove({unique_id: req.body.val}, 
 	   function(err){
 		if(err) res.json(err);
 		else   {
@@ -243,33 +243,12 @@ router.get('/delete/:id', function(req, res){
 	
 });
 
-//active status of record
-// router.get('/active/:id', function(req, res){
-// 	console.log("active");
-// 	User.updateOne({unique_id: req.params.id},{	status: 1},
-// 	   function(err,data){
-// 		   console.log(data);
-// 		if(err) res.json(err);
-// 		else 
-// 		{
-// 			var users =User.find({});
-// 			users.exec(function(err,data){
-// 			if(err) throw err;
-// 			res.render('admincon', { title: 'User Records', records:data });
-// 		//	res.redirect('/admincon');
-
-// 		  });
-// 		}  // res.render('admincon.ejs', { title: 'User Records', records:data });
-
-// 	});
-// });
-
 //active status of record using post
 router.post('/active', function(req, res){
 	console.log("active");
 	//console.log(JSON.stringify(req.body));
 	console.log(req.body.val);
-	User.updateOne({unique_id: req.body},{	status: 1},
+	User.updateOne({unique_id: req.body.val},{	status: 1},
 	   function(err,data){
 		   console.log(data);
 		if(err) res.json(err);
@@ -286,11 +265,10 @@ router.post('/active', function(req, res){
 
 	});
 });
-
-//inactive status of record
-router.get('/inactive/:id', function(req, res){
+//inactive status of record using post
+router.post('/inactive', function(req, res){
 	console.log("inactive");
-	User.updateOne({unique_id: req.params.id},{	status: 0},
+	User.updateOne({unique_id: req.body.val},{	status: 0},
 	   function(err,data){
 		   console.log(data);
 		if(err) res.json(err);
@@ -305,6 +283,27 @@ router.get('/inactive/:id', function(req, res){
 		}  // res.render('admincon.ejs', { title: 'User Records', records:data });
 
 	});
-	//res.redirect('/admincon');
+	
 });
+
+// //inactive status of record
+// router.get('/inactive/:id', function(req, res){
+// 	console.log("inactive");
+// 	User.updateOne({unique_id: req.params.id},{	status: 0},
+// 	   function(err,data){
+// 		   console.log(data);
+// 		if(err) res.json(err);
+// 		else 
+// 		{
+// 			var users =User.find({});
+// 			users.exec(function(err,data){
+// 			if(err) throw err;
+// 			res.render('admincon', { title: 'User Records', records:data });
+			
+// 		  });
+// 		}  // res.render('admincon.ejs', { title: 'User Records', records:data });
+
+// 	});
+// 	//res.redirect('/admincon');
+// });
 module.exports = router;

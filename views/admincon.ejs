@@ -29,7 +29,56 @@
          				}
          			})
 			});
-		});
+    });
+    $(document).ready(function(){
+
+$( "#inactivebtn" ).click(function(event) {
+  event.preventDefault();
+
+  $.ajax({
+    type: 'POST',
+    url: '/inactive',
+    data: {
+      val : $('#inactivebtn').val()
+    },
+    dataType: "text",
+    success: function(response){
+      //alert("a");
+      console.log(response.Success);
+      $('#inactivebtn')[0].reset();
+
+           },
+           error: function() {
+             console.log("errror");
+           }
+         })
+});
+});
+
+$(document).ready(function(){
+
+$( "#deletebtn" ).click(function(event) {
+  event.preventDefault();
+
+  $.ajax({
+    type: 'POST',
+    url: '/delete',
+    data: {
+      val : $('#deletebtn').val()
+    },
+    dataType: "text",
+    success: function(response){
+      //alert("a");
+      console.log(response.Success);
+      $('#deletebtn')[0].reset();
+
+           },
+           error: function() {
+             console.log("errror");
+           }
+         })
+});
+});
 	</script>
     
 <body> 
@@ -54,14 +103,18 @@
             <td><%= row.email %></td>
             <td><%= row.status %></td>
             <%if (row.status==0){%>
-
-            <td><a href="active/<%= row.unique_id %>">Active</a>
+            <td>
             <button value="<%= row.unique_id %>" id="activebtn" name="<%= row.unique_id %>">Active</button>
             </td>
             <%}else{%>
-              <td><a href="inactive/<%= row.unique_id %>">Inactive</a></td>
+              <td>
+                <button value="<%= row.unique_id %>" id="inactivebtn" name="<%= row.unique_id %>">Inactive</button>
+             </td>
               <%}%>
-            <td><a href="delete/<%= row.unique_id %>">Delete</a></td>
+              <td>
+                <button value="<%= row.unique_id %>" id="deletebtn" name="<%= row.unique_id %>">Delete</button>
+             </td>
+            
           </tr>
           <% })}else{ %>
             <tr>
