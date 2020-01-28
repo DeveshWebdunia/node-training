@@ -31,15 +31,15 @@
 
 	</div>
 	<script>
-		$('form').submit(function() {
+		$('form').submit(function(e) {
 			if($("#adminname").val()=="devesh" && $("#adminpass").val()==12345){
 				alert ('Admin Login Successful');
 				$('#form').attr('action', '/admincon');	
 			}
 			else{
 				alert ('invalid admin');
-				$('#form')[0].reset();
-				$('#form').attr('action', '/admin');	
+				e.preventDefault(e);
+				
 			}
 			
 });
