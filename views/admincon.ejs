@@ -25,6 +25,11 @@
             <td><%= row.username %></td>
             <td><%= row.email %></td>
             <td><%= row.status %></td>
+            <%if (row.status==0){%>
+            <td><a href="active/<%= row.unique_id %>">Active</a></td>
+            <%}else{%>
+              <td><a href="inactive/<%= row.unique_id %>">Inactive</a></td>
+              <%}%>
             <td><a href="delete/<%= row.unique_id %>">Delete</a></td>
           </tr>
           <% })}else{ %>

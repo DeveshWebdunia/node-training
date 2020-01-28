@@ -67,13 +67,15 @@ $('.column').each(function(){
 <h2>Banner Page</h2>
 <%if (BannerRecords.length >0){ %>
     <% BannerRecords.forEach(function(row){ %>
+      <%if(userstatus==1){%>
 <div class="row" >
   <div class="column" >
     <h2><%= row.name %></h2>
     <p><%= row.content %></p>
-
+<%}%>
   </div>
 </div>
 <% })} %> 
+
 </body>
 </html>

@@ -203,11 +203,56 @@ router.post('/admincon', function (req, res, next) {
 //delete record  
 router.get('/delete/:id', function(req, res){
 	console.log("delete");
-	User.remove({unique_id: req.params.id}, 
+	User.deleteOne({unique_id: req.params.id}, 
 	   function(err){
 		if(err) res.json(err);
-		else    res.render('admincon.ejs', { title: 'User Records', records:data });
+		else   {
+			
+				var users =User.find({});
+				users.exec(function(err,data){
+				if(err) throw err;
+				res.render('admincon', { title: 'User Records', records:data });
+			  });
+			
+		}
 	});
 });
 
+//active status of record
+router.get('/active/:id', function(req, res){
+	console.log("active");
+	User.updateOne({unique_id: req.params.id},{	status: 1},
+	   function(err,data){
+		   console.log(data);
+		if(err) res.json(err);
+		else 
+		{
+			var users =User.find({});
+			users.exec(function(err,data){
+			if(err) throw err;
+			res.render('admincon', { title: 'User Records', records:data });
+		  });
+		}  // res.render('admincon.ejs', { title: 'User Records', records:data });
+
+	});
+});
+
+//inactive status of record
+router.get('/inactive/:id', function(req, res){
+	console.log("inactive");
+	User.updateOne({unique_id: req.params.id},{	status: 0},
+	   function(err,data){
+		   console.log(data);
+		if(err) res.json(err);
+		else 
+		{
+			var users =User.find({});
+			users.exec(function(err,data){
+			if(err) throw err;
+			res.render('admincon', { title: 'User Records', records:data });
+		  });
+		}  // res.render('admincon.ejs', { title: 'User Records', records:data });
+
+	});
+});
 module.exports = router;

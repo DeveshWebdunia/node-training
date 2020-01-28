@@ -9,15 +9,7 @@ userSchema = new Schema( {
 	username: String,
 	password: String,
 	passwordConf: String,
-	status :{type :Number, default :0 } , 
-	///banner configs
-	// name : String,
-	// content : String,
-	// color: String,
-	// positionlft : String,
-	// positionrht : String,
-	
-		
+	status :{type :Number, default :0 } , 	
 }),
 User = mongoose.model('User', userSchema);
 
@@ -30,12 +22,12 @@ bannerSchema = new Schema( {
 	color: String,
 	positionlft : String,
 	positionrht : String,
-		
+	userstatus  :[{
+		type : Schema.Types.ObjectId,
+		ref  : 'User'
+	}]		
 }),
 Banner = mongoose.model('banner', bannerSchema);
-
-
-
 
 module.exports = Banner;
 module.exports = User;
