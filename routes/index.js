@@ -5,9 +5,13 @@ var User = require('../models/user');
 router.get('/banner', function (req, res, next) {
 	var bannerEL =Banner.find({});
 	bannerEL.exec(function(err,data){
-	if(err) throw err;
-		console.log(data);
-		res.render('banner', { title: 'Banner Records', BannerRecords:data });
+		//user details
+		var users =User.find({});
+		users.exec(function(err,userdata){
+	  //  res.render('admincon', { title: 'User Records', records:userdata });
+		  console.log(data);
+		res.render('banner', { title: 'Banner Records', BannerRecords:data, UserRecords:userdata  });
+	});
 		  });
 	//return res.render('banner.ejs');
 });
@@ -56,7 +60,7 @@ router.post('/', function(req, res, next) {
 						});
 
 					}).sort({_id: -1}).limit(1);
-					res.send({"Success":"You are regestered,You can login now."});
+					res.send({"Success":"You are registered,You can login now."});
 				}else{
 					res.send({"Success":"Email is already used."});
 				}
@@ -90,7 +94,7 @@ router.post('/login', function (req, res, next) {
 			}
 			console.log("data:" );
 		}else{
-			res.send({"Success":"This Email Is not regestered!"});
+			res.send({"Success":"This Email Is not registered!"});
 		}
 		console.log("data:" );
 	});
@@ -129,7 +133,7 @@ router.post('/forgetpass', function (req, res, next) {
 	User.findOne({email:req.body.email},function(err,data){
 		console.log( "devesh:"+ data);
 		if(!data){
-			res.send({"Success":"This Email Is not regestered!"});
+			res.send({"Success":"This Email Is not registered!"});
 		}else{
 			// res.send({"Success":"Success!"});
 			if (req.body.password==req.body.passwordConf) {
@@ -184,7 +188,7 @@ router.post('/profile', function (req, res, next) {
 						});
 
 					}).sort({_id: -1}).limit(1);
-					res.send({"Success":"You are regestered,You can login now."});
+					res.send({"Success":"You are registered,You can login now."});
 
 	console.log("profile");
 	console.log();
@@ -203,7 +207,7 @@ router.post('/admincon', function (req, res, next) {
 //delete record  
 router.get('/delete/:id', function(req, res){
 	console.log("delete");
-	User.deleteOne({unique_id: req.params.id}, 
+	User.remove({unique_id: req.params.id}, 
 	   function(err){
 		if(err) res.json(err);
 		else   {
@@ -216,6 +220,7 @@ router.get('/delete/:id', function(req, res){
 			
 		}
 	});
+	
 });
 
 //active status of record
@@ -231,6 +236,8 @@ router.get('/active/:id', function(req, res){
 			users.exec(function(err,data){
 			if(err) throw err;
 			res.render('admincon', { title: 'User Records', records:data });
+		//	res.redirect('/admincon');
+
 		  });
 		}  // res.render('admincon.ejs', { title: 'User Records', records:data });
 
@@ -250,9 +257,11 @@ router.get('/inactive/:id', function(req, res){
 			users.exec(function(err,data){
 			if(err) throw err;
 			res.render('admincon', { title: 'User Records', records:data });
+			
 		  });
 		}  // res.render('admincon.ejs', { title: 'User Records', records:data });
 
 	});
+	//res.redirect('/admincon');
 });
 module.exports = router;

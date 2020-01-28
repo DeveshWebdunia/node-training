@@ -16,20 +16,19 @@
 			<p>Admin Login</p>
 		</div>
 		<div class="form-group">
-			<form id="form" method="post" action="/admin">
+			<form id="form" method="post" action="#">
 				<input type="text"  id="adminname" name="email" placeholder="E-mail" required="" class="form-control"><br/>
 				<input type="password" id="adminpass" name="password" placeholder="Password" required="" class="form-control"><br/>
 				<input type="submit" value="Login" class="btn btn-success">
 			</form>
         </div>
-      
+
 		<div class="mssg bg-danger">
 			<span id="check" ></span>
 		</div>
 		<div id="LangTable"><a href="/profile" id="aa"></a>
 		</div>
-		<div><span>Do you forgot password?</span><a href="/forgetpass">click here</a>
-		</div>
+
 	</div>
 	<script>
 		$('form').submit(function() {
@@ -37,6 +36,12 @@
 				alert ('Admin Login Successful');
 				$('#form').attr('action', '/admincon');	
 			}
+			else{
+				alert ('invalid admin');
+				$('#form')[0].reset();
+				$('#form').attr('action', '/admin');	
+			}
+			
 });
 		
 	</script>

@@ -22,10 +22,7 @@ bannerSchema = new Schema( {
 	color: String,
 	positionlft : String,
 	positionrht : String,
-	userstatus  :[{
-		type : Schema.Types.ObjectId,
-		ref  : 'User'
-	}]		
+		
 }),
 Banner = mongoose.model('banner', bannerSchema);
 

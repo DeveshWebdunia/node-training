@@ -60,22 +60,27 @@ $('.column').each(function(){
   display: table;
   clear: both;
 }
+button{
+  background-color: grey;
+  height: 60px;
+  width:80px;
+
+}
 </style>
 </head>
-<body>
+<body> 
 
 <h2>Banner Page</h2>
+<button><a href="/">Index</a></button>
 <%if (BannerRecords.length >0){ %>
-    <% BannerRecords.forEach(function(row){ %>
-      <%if(userstatus==1){%>
+<% BannerRecords.forEach(function(row){ %>
+     
 <div class="row" >
   <div class="column" >
-    <h2><%= row.name %></h2>
+    <h2>Author :<%= row.name %></h2>
     <p><%= row.content %></p>
-<%}%>
-  </div>
+</div>
 </div>
 <% })} %> 
-
 </body>
 </html>

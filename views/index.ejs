@@ -7,7 +7,11 @@
 	</script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="./css/main.css">
-
+<style>
+a {
+	color: white;
+ }
+</style>
 
 	<script type="text/javascript">
 		$(document).ready(function(){
@@ -26,7 +30,6 @@
 						$('#form1')[0].reset();
 
 						document.getElementById("check").innerHTML=response.Success;
-         					//ADD THIS CODE
          					setTimeout(function(){
          						document.getElementById("check").innerHTML="";
          					},3000);
@@ -56,19 +59,24 @@
 				<input type="password" name="password" placeholder="Password" required="" class="form-control"><br/>
 				<input type="password" name="passwordConf" placeholder="Confirm Password" required="" class="form-control"><br/>
 				<input type="submit" value="Register" class="btn btn-success">
+				 
+				
 			</form>
+			
 		</div>
 		
 		<div class="mssg bg-danger">
 			<span id="check"></span>
 		</div>
-		<div>
-			<button class="btn btn-success"><a href="/banner" ;>Banner Page</a></button>
-			<span>Already Registered! <a href="/login">Login</a></span>
-		</div>
+		<div style="align:center;" >
+			<button class="btn btn-primary"><a href="/admin">Admin</a></button>
+			<button class="btn btn-primary"><a href="/banner" ;>Banner Page</a></button>
+			<button class="btn btn-primary"><a href="/login">Login</a></button> 
+			</div>
+			
 		<div>
 			<br>
-			<button><a href="/admin">Admin</a></button>
+			<!-- <button><a href="/admin">Admin</a></button> -->
 			<!-- <a href="/admin">Admin Login</a> -->
 		</div>
 		<div id="LangTable"><a href="/login" id="aa"></a>
