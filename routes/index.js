@@ -3,7 +3,16 @@ var router = express.Router();
 var User = require('../models/user');
 const JSON = require('circular-json');
 const session = require('express-session');
+var jwt = require('jsonwebtoken');
+var config = require('./config.js');
+let cookieParser = require('cookie-parser'); 
 
+// var token = jwt.sign({ id: user._id, role:user.role }, config.secret, {
+// 	expiresIn: 86400});
+// 	module.exports = {
+// 		'secret': 'supersecret'
+// 	  };
+	// expires in 24 hours
 // router.get('/banner', function (req, res, next) {
 // 	var bannerEL =Banner.find({});
 // 	bannerEL.exec(function(err,data){
@@ -98,13 +107,20 @@ router.get('/login', function (req, res, next) {
 router.post('/login', function (req, res, next) {
 	//console.log(req.body);
 	User.findOne({email:req.body.email},function(err,data){
+		//jwt token 
+		var token = jwt.sign({ _id: data._id}, config.secret, {
+				   expiresIn: 86400});
+				 //  console.log(token);
+				  // document.cookie = token;
+				   res.cookie('logincookie',token );
+
 		if(data){
 			
 			if(data.password==req.body.password){
 				console.log("Done Login");
 				
-				req.session.userId = data.unique_id;
-				console.log(req.session.userId);
+				//req.session.userId = data.unique_id;
+				//console.log(req.session.userId);
 				res.send({"Success":"Success!"});
 				
 			}else{
@@ -174,7 +190,15 @@ router.post('/forgetpass', function (req, res, next) {
 });
 
 router.get('/profile', function (req, res, next) {
-	return res.render('data.ejs');
+	if(req.cookies.logincookie !==  null){
+		console.log("1");
+		res.clearCookie('logincookie');
+	    res.render('data.ejs');
+	}
+
+	else console.log("2");
+	
+	
 });
 
 router.post('/profile', function (req, res, next) {
@@ -294,7 +318,7 @@ router.post('/inactive', function(req, res){
 			users.exec(function(err,data){
 			if(err) throw err;
 			res.render('admincon', { title: 'User Records', records:data });
-		//	res.redirect(req.get('referer'));
+		  //	res.redirect(req.get('referer'));
 			
 		  });
 		}  // res.render('admincon.ejs', { title: 'User Records', records:data });

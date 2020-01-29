@@ -4,8 +4,9 @@ var path = require('path');
 var app = express();
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-var session = require('express-session');
-var MongoStore = require('connect-mongo')(session);
+//var session = require('express-session');
+//var MongoStore = require('connect-mongo')(session);
+let cookieParser = require('cookie-parser');
 
 mongoose.connect('mongodb://localhost:27017/local', { 
  
@@ -19,18 +20,18 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
 });
 
-app.use(session({
-  secret: 'session initiate',
-  resave: true,
-  saveUninitialized: false,
-  store: new MongoStore({
-    mongooseConnection: db
-  })
-}));
+//app.use(session({
+//   secret: 'session initiate',
+//   resave: true,
+//   saveUninitialized: false,
+//   store: new MongoStore({
+//     mongooseConnection: db
+//   })
+// }));
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');	
-
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
