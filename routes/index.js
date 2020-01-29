@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var User = require('../models/user');
 const JSON = require('circular-json');
-
+const session = require('express-session');
 
 // router.get('/banner', function (req, res, next) {
 // 	var bannerEL =Banner.find({});
@@ -17,7 +17,7 @@ const JSON = require('circular-json');
 // 		  });
 // 	//return res.render('banner.ejs');
 // });
-
+// var INIsession = req.session;
 
 router.get('/banner', function (req, res, next) {
 	var users =User.find({status:1});
@@ -294,6 +294,7 @@ router.post('/inactive', function(req, res){
 			users.exec(function(err,data){
 			if(err) throw err;
 			res.render('admincon', { title: 'User Records', records:data });
+		//	res.redirect(req.get('referer'));
 			
 		  });
 		}  // res.render('admincon.ejs', { title: 'User Records', records:data });

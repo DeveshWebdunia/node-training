@@ -4,8 +4,78 @@
 	</script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="./css/main.css">
-    
+    <style>
+      a {
+        color: white;
+       }
+      </style>
       <script type="text/javascript">
+      function activerec(e){
+        console.log(e);
+          $.ajax({
+          type: 'POST',
+          url: '/active',
+          data: {
+          val : e
+                },
+          dataType: "text",
+           success: function(response){
+         //alert("a");
+         console.log(response.Success);
+          $('#activebtn')[0].reset();
+         //document.getElementById("deletebtn").reset();
+            },
+           error: function() {
+             console.log("errror");
+           }
+         });
+         location.reload();
+
+      }
+      function inactiverec(e){
+        console.log(e);
+          $.ajax({
+          type: 'POST',
+          url: '/inactive',
+          data: {
+          val : e
+                },
+          dataType: "text",
+           success: function(response){
+         //alert("a");
+         console.log(response.Success);
+          $('#inactivebtn')[0].reset();
+        //  location.reload(true);
+         //document.getElementById("deletebtn").reset();
+            },
+           error: function() {
+             console.log("errror");
+           }
+         });
+         location.reload();
+      }
+      function deleterec(e){
+          console.log(e);
+          $.ajax({
+          type: 'POST',
+          url: '/delete',
+          data: {
+          val : e
+                },
+          dataType: "text",
+           success: function(response){
+         //alert("a");
+         console.log(response.Success);
+          $('#deletebtn')[0].reset();
+         //document.getElementById("deletebtn").reset();
+            },
+           error: function() {
+             console.log("errror");
+           }
+         });
+         location.reload();
+      }
+
 		$(document).ready(function(){
 
 			$( "#activebtn" ).click(function(event) {
@@ -55,56 +125,7 @@ $( "#inactivebtn" ).click(function(event) {
 });
 });
 
-// $(document).ready(function(){
 
-// $( "#deletebtn" ).click(function(event) {
-//   event.preventDefault();
-   
-//   $.ajax({
-//     type: 'POST',
-//     url: '/delete',
-//     data: {
-//       val : $.Delvalue
-//     },
-//     dataType: "text",
-//     success: function(response){
-//       //alert("a");
-//       console.log(response.Success);
-//       $('#deletebtn')[0].reset();
-
-//            },
-//            error: function() {
-//              console.log("errror");
-//            }
-//          })
-//          $('#deletebtn').val()=0;
-// });
-// });
-$(document).ready(function(){
-// alert($Delvalue);
-$( "#deletebtn" ).click(function(event) {
-  event.preventDefault();
-   
-  $.ajax({
-    type: 'POST',
-    url: '/delete',
-    data: {
-      val : $('#deletebtn').val()
-    },
-    dataType: "text",
-    success: function(response){
-      //alert("a");
-      console.log(response.Success);
-      $('#deletebtn')[0].reset();
-      //document.getElementById("deletebtn").reset();
-           },
-           error: function() {
-             console.log("errror");
-           }
-         })
-        
-});
-});
 	</script>
     
 <body> 
@@ -130,20 +151,15 @@ $( "#deletebtn" ).click(function(event) {
             <td><%= row.status %></td>
             <%if (row.status==0){%>
             <td>
-            <button value="<%= row.unique_id %>" id="activebtn" name="<%= row.unique_id %>">Active</button>
+            <button value="<%= row.unique_id %>" id="activebtn" onclick="activerec('<%= row.unique_id %>')">Active</button>
             </td>
             <%}else{%>
               <td>
-                <button value="<%= row.unique_id %>" id="inactivebtn" name="<%= row.unique_id %>">Inactive</button>
+                <button value="<%= row.unique_id %>" id="inactivebtn" onclick="inactiverec('<%= row.unique_id %>')">Inactive</button>
              </td>
               <%}%>
               <td>
-                <button value="<%= row.unique_id %>" id="deletebtn" >Delete</button>
-                <!-- <script>
-                $(document).ready(function(){
-                 var $Delvalue=$('<%= row.unique_id %>').val();
-                });
-                </script> -->
+                <button value="<%= row.unique_id %>" id="deletebtn" onclick="deleterec('<%= row.unique_id %>')" >Delete</button>
              </td>
             
           </tr>
