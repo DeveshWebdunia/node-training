@@ -101,26 +101,22 @@ router.post('/', function(req, res, next) {
 //login
 router.get('/login', function (req, res, next) {
 	return res.render('login.ejs');
-	//console.log('login');
-});
+}); 
 
 router.post('/login', function (req, res, next) {
+		
 	//console.log(req.body);
 	User.findOne({email:req.body.email},function(err,data){
-		//jwt token 
-		var token = jwt.sign({ _id: data._id}, config.secret, {
-				   expiresIn: 86400});
-				 //  console.log(token);
-				  // document.cookie = token;
-				   res.cookie('logincookie',token );
+					
+				  
 
 		if(data){
 			
 			if(data.password==req.body.password){
 				console.log("Done Login");
 				
-				//req.session.userId = data.unique_id;
-				//console.log(req.session.userId);
+				req.session.userId = data.unique_id;
+				console.log(req.session.userId);
 				res.send({"Success":"Success!"});
 				
 			}else{
@@ -132,6 +128,7 @@ router.post('/login', function (req, res, next) {
 		}
 		console.log("data:" );
 	});
+	
 });
 
 
@@ -140,8 +137,6 @@ router.get('/admin', function (req, res, next) {
 	console.log("admin");
 	return res.render('admin.ejs');
 });
-
-
 
 router.get('/logout', function (req, res, next) {
 	console.log("logout")
@@ -190,14 +185,16 @@ router.post('/forgetpass', function (req, res, next) {
 });
 
 router.get('/profile', function (req, res, next) {
-	if(req.cookies.logincookie !==  null){
-		console.log("1");
-		res.clearCookie('logincookie');
-	    res.render('data.ejs');
-	}
-
-	else console.log("2");
-	
+	User.findOne({unique_id:req.session.userId},function(err,data){
+		console.log("data");
+		console.log(data);
+		if(!data){
+			res.redirect('/');
+		}else{
+			console.log("found");
+			return res.render('data.ejs');
+		}
+	});
 	
 });
 
@@ -232,7 +229,7 @@ router.post('/profile', function (req, res, next) {
 					res.send({"Success":"You are registered,You can login now."});
 
 	console.log("profile");
-	console.log();
+	//console.log();
 	return res.render('data.ejs');
 });
 
@@ -327,24 +324,4 @@ router.post('/inactive', function(req, res){
 	
 });
 
-// //inactive status of record
-// router.get('/inactive/:id', function(req, res){
-// 	console.log("inactive");
-// 	User.updateOne({unique_id: req.params.id},{	status: 0},
-// 	   function(err,data){
-// 		   console.log(data);
-// 		if(err) res.json(err);
-// 		else 
-// 		{
-// 			var users =User.find({});
-// 			users.exec(function(err,data){
-// 			if(err) throw err;
-// 			res.render('admincon', { title: 'User Records', records:data });
-			
-// 		  });
-// 		}  // res.render('admincon.ejs', { title: 'User Records', records:data });
-
-// 	});
-// 	//res.redirect('/admincon');
-// });
 module.exports = router;

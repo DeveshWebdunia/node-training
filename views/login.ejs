@@ -17,11 +17,10 @@
 
 			$( "#form" ).submit(function(event) {
 				event.preventDefault();
-
 				$.ajax({
 					type: 'POST',
 					url: '/login',
-					data: $('#form').serialize(),
+					data:$('#form').serialize() ,
 					dataType: "json",
 					success: function(response){
 						//alert("a");
