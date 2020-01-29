@@ -19,9 +19,10 @@ bannerSchema = new Schema( {
 	unique_id: Number,
 	name : String,
 	content : String,
-	color: String,
-	positionlft : String,
-	positionrht : String,
+	author: String,
+	timestamp: { type: Date, default: Date.now}
+	// positionlft : String,
+	// positionrht : String,
 		
 }),
 Banner = mongoose.model('banner', bannerSchema);

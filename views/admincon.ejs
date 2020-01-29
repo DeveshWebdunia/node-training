@@ -55,11 +55,36 @@ $( "#inactivebtn" ).click(function(event) {
 });
 });
 
-$(document).ready(function(){
+// $(document).ready(function(){
 
+// $( "#deletebtn" ).click(function(event) {
+//   event.preventDefault();
+   
+//   $.ajax({
+//     type: 'POST',
+//     url: '/delete',
+//     data: {
+//       val : $.Delvalue
+//     },
+//     dataType: "text",
+//     success: function(response){
+//       //alert("a");
+//       console.log(response.Success);
+//       $('#deletebtn')[0].reset();
+
+//            },
+//            error: function() {
+//              console.log("errror");
+//            }
+//          })
+//          $('#deletebtn').val()=0;
+// });
+// });
+$(document).ready(function(){
+// alert($Delvalue);
 $( "#deletebtn" ).click(function(event) {
   event.preventDefault();
-
+   
   $.ajax({
     type: 'POST',
     url: '/delete',
@@ -71,12 +96,13 @@ $( "#deletebtn" ).click(function(event) {
       //alert("a");
       console.log(response.Success);
       $('#deletebtn')[0].reset();
-
+      //document.getElementById("deletebtn").reset();
            },
            error: function() {
              console.log("errror");
            }
          })
+        
 });
 });
 	</script>
@@ -112,7 +138,12 @@ $( "#deletebtn" ).click(function(event) {
              </td>
               <%}%>
               <td>
-                <button value="<%= row.unique_id %>" id="deletebtn" name="<%= row.unique_id %>">Delete</button>
+                <button value="<%= row.unique_id %>" id="deletebtn" >Delete</button>
+                <!-- <script>
+                $(document).ready(function(){
+                 var $Delvalue=$('<%= row.unique_id %>').val();
+                });
+                </script> -->
              </td>
             
           </tr>
@@ -124,6 +155,10 @@ $( "#deletebtn" ).click(function(event) {
     </tbody>
     </tbody>
   </table>
+  <script>
+
+  </script>
+  <button class="btn btn-primary"><a href="/logout" ;>Logout</a></button>
 </body>
 
   </html>

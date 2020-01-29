@@ -4,20 +4,36 @@ var User = require('../models/user');
 const JSON = require('circular-json');
 
 
-router.get('/banner', function (req, res, next) {
-	var bannerEL =Banner.find({});
-	bannerEL.exec(function(err,data){
-		//user details
-		var users =User.find({});
-		users.exec(function(err,userdata){
-	  //  res.render('admincon', { title: 'User Records', records:userdata });
-		  console.log(data);
-		res.render('banner', { title: 'Banner Records', BannerRecords:data, UserRecords:userdata  });
-	});
-		  });
-	//return res.render('banner.ejs');
-});
+// router.get('/banner', function (req, res, next) {
+// 	var bannerEL =Banner.find({});
+// 	bannerEL.exec(function(err,data){
+// 		//user details
+// 		var users =User.find({});
+// 		users.exec(function(err,userdata){
+// 	  //  res.render('admincon', { title: 'User Records', records:userdata });
+// 		  console.log(data);
+// 		res.render('banner', { title: 'Banner Records', BannerRecords:data, UserRecords:userdata  });
+// 	});
+// 		  });
+// 	//return res.render('banner.ejs');
+// });
 
+
+router.get('/banner', function (req, res, next) {
+	var users =User.find({status:1});
+	users.exec(function(err,userdata){
+		console.log(userdata);
+		var Mapuser = [];
+		userdata.map(val =>{
+			Mapuser.push({author : val.username})
+		})
+	console.log(Mapuser);	
+	var bannerEL =Banner.find({ $or : Mapuser}).sort('-timestamp');
+	bannerEL.exec(function(err,data){
+	res.render('banner', { title: 'Banner Records', BannerRecords:data });
+	});
+  });
+});
 router.get('/', function (req, res, next) {
 	return res.render('index.ejs');
 });
@@ -177,9 +193,8 @@ router.post('/profile', function (req, res, next) {
 						var newBanner = new Banner({
 							name : bannerConfig.banner_name,
 					    	content: bannerConfig.banner_content,
-							color: bannerConfig.banner_color,
-							positionlft: bannerConfig.banner_position_lft,
-			  			  	positionrht :  bannerConfig.banner_position_rht
+							author: bannerConfig.author_name,
+							
 						});
 
 						newBanner.save(function(err, banner){
@@ -227,6 +242,7 @@ router.get('/delete/:id', function(req, res){
 //delete record  
 router.post('/delete', function(req, res){
 	console.log("delete");
+	console.log(req.body.val);
 	User.remove({unique_id: req.body.val}, 
 	   function(err){
 		if(err) res.json(err);
