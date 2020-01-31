@@ -73,10 +73,13 @@ var rediscl = new RedisCluster({
      {name: 'redis03', link: '127.0.0.1:8379', slots: [12743, 16384], options: {max_attempts: 5}}
     ],
   createClient: function(port, host) {
-    console.log(port+host);
+   
     // this is the default behaviour
-    return redis.createClient(port, host);
+ let connection = redis.createClient(port, host);
+  // console.log(port);
+  // console.log(host);
+  console.log(connection);
+  
   }
 
 });
-console.log(rediscl);
